@@ -17,4 +17,12 @@
         </classes>
     </test>
 
+    <test name="Selenium Demo Tests - Internet Explorer" preserve-order="true">
+        <parameter name="browser" value="InternetExplorer"/>
+
+        <classes>
+            <class name="com.ml.demo.core.cucumber.runners.CukesRunner"/>
+        </classes>
+    </test>
+
 </suite>
