@@ -1,0 +1,61 @@
+group 'com.ml.demo.selenium_gradle_tests'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply from: "dependencies.gradle"
+
+sourceCompatibility = 1.8
+
+// Execute test task even if code is not changed
+test.outputs.upToDateWhen {false}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
+
+dependencies {
+    // Selenium
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: ver.selenium
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: ver.selenium
+    // TestNG & AssertJ
+    compile group: 'org.testng', name: 'testng', version: ver.testNG
+    compile group: 'org.assertj', name: 'assertj-core', version: ver.assertJ
+    // Cucumber & Gherkin
+    compile group: 'io.cucumber', name: 'gherkin', version: ver.gherkin
+    compile group: 'io.cucumber', name: 'cucumber-java', version: ver.cucumber
+    compile group: 'io.cucumber', name: 'cucumber-testng', version: ver.cucumber
+    compile group: 'io.cucumber', name: 'cucumber-picocontainer', version: ver.cucumber
+}
+
+test {
+    // Command line parameters
+    def testGroup = findProperty('testGroup')
+    systemProperty 'cucumber.options', findProperty("cucumber.options")
+
+    // Turn off Gradle HTML report
+    reports.html.enabled = false
+
+    // Show Cucumber logs in console
+    testLogging.showStandardStreams = true
+
+    useTestNG() {
+        // Set TestNG xml suite
+        suites 'testng.xml'
+
+        // Turn on all TestNG reports
+        useDefaultListeners = true
+
+        // Pass TestNG group
+        if (testGroup != null) {
+            includeGroups testGroup
+        }
+    }
+}

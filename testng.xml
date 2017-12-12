@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Selenium Demo Tests" verbose="4" preserve-order="true" thread-count="3" parallel="tests">
+
+    <test name="Selenium Demo Tests - Chrome" preserve-order="true">
+        <parameter name="browser" value="Chrome"/>
+
+        <classes>
+            <class name="com.ml.demo.core.cucumber.runners.CukesRunner"/>
+        </classes>
+    </test>
+
+    <test name="Selenium Demo Tests - Firefox" preserve-order="true">
+        <parameter name="browser" value="Firefox"/>
+
+        <classes>
+            <class name="com.ml.demo.core.cucumber.runners.CukesRunner"/>
+        </classes>
+    </test>
+
+</suite>

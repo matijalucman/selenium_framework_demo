@@ -1,0 +1,9 @@
+ext {
+    ver = [
+            selenium: '3.8.1',
+            cucumber: '2.2.0',
+            testNG: '6.11',
+            assertJ: '3.8.0',
+            gherkin: '5.0.0'
+    ]
+}
