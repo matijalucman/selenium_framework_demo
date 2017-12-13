@@ -1,7 +1,7 @@
-package com.ml.demo.core.cucumber.stepdefinitions;
+package com.ml.demo.cucumber.stepdefinitions;
 
-import com.ml.demo.core.cucumber.datacontainers.Google;
-import com.ml.demo.core.pageobjectmodel.applicationpages.GoogleMainPage;
+import com.ml.demo.cucumber.datacontainers.Google;
+import com.ml.demo.pageobjectmodel.applicationpages.GoogleMainPage;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;

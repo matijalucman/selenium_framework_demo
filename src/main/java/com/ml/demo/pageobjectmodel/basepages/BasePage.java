@@ -1,4 +1,4 @@
-package com.ml.demo.core.pageobjectmodel.basepages;
+package com.ml.demo.pageobjectmodel.basepages;
 
 import com.ml.demo.core.driver.Driver;
 import org.openqa.selenium.support.PageFactory;

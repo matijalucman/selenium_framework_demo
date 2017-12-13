@@ -1,4 +1,4 @@
-package com.ml.demo.core.cucumber.runners;
+package com.ml.demo.cucumber.runners;
 
 import com.ml.demo.core.driver.Browser;
 import com.ml.demo.core.driver.Driver;
@@ -14,7 +14,7 @@ import org.testng.annotations.*;
 
 @CucumberOptions(
         features = "src/main/resources",
-        glue = "com.ml.demo.core.cucumber.stepdefinitions",
+        glue = "com.ml.demo.cucumber",
         plugin = {"pretty", "html:target/cucumber-html-report"}
 )
 public class CukesRunner extends AbstractTestNGCucumberTests {
