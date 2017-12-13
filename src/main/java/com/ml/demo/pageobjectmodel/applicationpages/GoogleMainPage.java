@@ -1,8 +1,8 @@
-package com.ml.demo.core.pageobjectmodel.applicationpages;
+package com.ml.demo.pageobjectmodel.applicationpages;
 
 import com.ml.demo.core.actions.ElementActions;
 import com.ml.demo.core.driver.Driver;
-import com.ml.demo.core.pageobjectmodel.basepages.BasePage;
+import com.ml.demo.pageobjectmodel.basepages.BasePage;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

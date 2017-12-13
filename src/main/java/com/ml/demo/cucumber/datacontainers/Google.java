@@ -1,6 +1,6 @@
-package com.ml.demo.core.cucumber.datacontainers;
+package com.ml.demo.cucumber.datacontainers;
 
-import com.ml.demo.core.pageobjectmodel.applicationpages.GoogleMainPage;
+import com.ml.demo.pageobjectmodel.applicationpages.GoogleMainPage;
 
 public class Google {
     private String searchTerm;
