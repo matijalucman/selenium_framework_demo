@@ -1,0 +1,25 @@
+ext {
+    ver = [
+            selenium: '3.8.1',
+            cucumber: '1.2.5',
+            gherkin: '2.12.2',
+            testNG: '6.11',
+            assertJ: '3.8.0',
+            javaxMail: '1.4.7',
+            antJavaMail: '1.6.5',
+            javaxActivation: '1.1.1',
+            extentreport: '3.0.6',
+            cucumberreport: '3.0.1'
+    ]
+
+    directory = [
+            location: 'C:\\Selenium',
+            testReports: "$project.rootDir\\build\\reports\\tests\\runTests"
+    ]
+
+    selenium = [
+            hubClassPath: directory.location + "\\*;.",
+            hubClassName: 'org.openqa.grid.selenium.GridLauncherV3',
+            standaloneServer: directory.location + '\\selenium-server-standalone-' + ver.selenium + '.jar'
+    ]
+}
