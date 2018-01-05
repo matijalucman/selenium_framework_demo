@@ -2,12 +2,16 @@ group 'com.ml.demo.selenium_gradle_tests'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply from: "dependencies.gradle"
+apply from: "closures.gradle"
+apply from: "constants.gradle"
 
 sourceCompatibility = 1.8
 
-// Execute test task even if code is not changed
-test.outputs.upToDateWhen {false}
+loadProperties()
+
+configurations {
+    antClasspath
+}
 
 repositories {
     mavenCentral()
@@ -29,33 +33,52 @@ dependencies {
     compile group: 'org.testng', name: 'testng', version: ver.testNG
     compile group: 'org.assertj', name: 'assertj-core', version: ver.assertJ
     // Cucumber & Gherkin
-    compile group: 'io.cucumber', name: 'gherkin', version: ver.gherkin
-    compile group: 'io.cucumber', name: 'cucumber-java', version: ver.cucumber
-    compile group: 'io.cucumber', name: 'cucumber-testng', version: ver.cucumber
-    compile group: 'io.cucumber', name: 'cucumber-picocontainer', version: ver.cucumber
+    compile group: 'info.cukes', name: 'gherkin', version: ver.gherkin
+    compile group: 'info.cukes', name: 'cucumber-java', version: ver.cucumber
+    compile group: 'info.cukes', name: 'cucumber-testng', version: ver.cucumber
+    compile group: 'info.cukes', name: 'cucumber-picocontainer', version: ver.cucumber
+    // Ant email
+    antClasspath group: 'javax.mail', name: 'mail', version: ver.javaxMail
+    antClasspath group: 'ant', name: 'ant-javamail', version: ver.antJavaMail
+    antClasspath group: 'javax.activation', name: 'activation', version: ver.javaxActivatio
+    // Cucumber Extent report
+    compile group: 'com.aventstack', name: 'extentreports', version: ver.extentreport
+    compile group: 'com.vimalselvam', name: 'cucumber-extentsreport', version:  ver.cucumberreport
 }
 
-test {
-    // Command line parameters
-    def testGroup = findProperty('testGroup')
-    systemProperty 'cucumber.options', findProperty("cucumber.options")
+task runTests(type: Test) {
+    // Ignore test failures
+    ignoreFailures = true
 
     // Turn off Gradle HTML report
     reports.html.enabled = false
 
-    // Show Cucumber logs in console
-    testLogging.showStandardStreams = true
+    // Execute test even if code is up to date
+    outputs.upToDateWhen { false }
 
-    useTestNG() {
-        // Set TestNG xml suite
-        suites 'testng.xml'
+    // Set cucumber options as system variable
+    systemProperty 'cucumber.options', cucumberOptions
 
-        // Turn on all TestNG reports
-        useDefaultListeners = true
+    doFirst {
+        // Turn on grid
+        startHub()
+        startNode()
 
-        // Pass TestNG group
-        if (testGroup != null) {
-            includeGroups testGroup
+        useTestNG() {
+            // Set TestNG xml suite
+            suites profileProperties.testSuite
+
+            // Exclude browsers from execution
+            excludeGroups excludeBrowsers
         }
+    }
+
+    doLast {
+        // Turn off grid
+        stopHub()
+        stopNode()
+
+        // Send email with results
+//        sendEmail()
     }
 }

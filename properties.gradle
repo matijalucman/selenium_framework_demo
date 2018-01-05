@@ -1,0 +1,13 @@
+profiles {
+    production {
+        name = 'production'
+        testSuite = 'testng.xml'
+        emailAddress = 'matija.lucman@hotmail.com'
+    }
+
+    development {
+        name = 'development'
+        testSuite = 'testng.xml'
+        emailAddress = 'matija.lucman@hotmail.com'
+    }
+}

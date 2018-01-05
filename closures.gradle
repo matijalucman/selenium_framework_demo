@@ -1,0 +1,84 @@
+import java.text.SimpleDateFormat
+
+// Load properties from properties.gradle file
+ext.loadProperties = {
+    // Get project properties
+    def profile = project.hasProperty('profile') ? profile : 'production'
+    def cucumberOptions = project.hasProperty('cucumberOptions') ? groups : ""
+    def excludeBrowsers = project.hasProperty('excludeBrowsers') ? exludeBrowsers : ""
+
+    // Save properties to project extra properties
+    ext.profile = profile
+    ext.timestamp = getBuildTime()
+    ext.cucumberOptions = cucumberOptions
+    ext.excludeBrowsers = excludeBrowsers
+
+    // Load profile properties from properties.gradle file
+    def properties = file('properties.gradle').toURI().toURL()
+    def profileProperties = new ConfigSlurper().parse(properties)["profiles"][profile]
+    ext.profileProperties = profileProperties
+}
+
+// Start Selenium Hub
+ext.startHub = {
+    println 'Starting hub...'
+    ant.java(classname: selenium.hubClassName, classpath: selenium.hubClassPath, spawn: true, fork: true) {
+        arg(line: "-role hub")
+    }
+    println 'Hub started.'
+}
+
+// Start Selenium Node
+ext.startNode = {
+    println 'Starting node...'
+    ant.java(jar: selenium.standaloneServer, spawn: true, fork: true) {
+        arg(line: "-role node")
+        arg(line: "-hub http://localhost:4444/grid/register")
+        arg(line: "-maxSession 3")
+        arg(line: "-servlet org.openqa.grid.web.servlet.LifecycleServlet")
+    }
+    println 'Node started.'
+}
+
+// Stop Selenium Hub
+ext.stopHub = {
+    println 'Stopping hub...'
+    "http://localhost:4444/lifecycle-manager?action=shutdown".toURL().text
+    println 'Hub stopped.'
+}
+
+// Stop Selenium Node
+ext.stopNode = {
+    println 'Stopping node...'
+    "http://localhost:5555/extra/LifecycleServlet?action=shutdown".toURL().text
+    println 'Node stopped.'
+}
+
+// Send Email
+ext.sendEmail = {
+    println 'Sending email with results...'
+    ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
+    configurations.antClasspath.each {
+        File jar -> antClassLoader.addURL( jar.toURI().toURL() )
+    }
+
+    def mailParams = [
+            mailhost: 'smtp.gmail.com',
+            mailport: 587,
+            tolist: profileProperties.emailAddress,
+            subject: "$profileProperties.name Portal autotest results: $timestamp $groups",
+            messagemimetype: "text/html",
+            messagefile: "$directory.testReports/TestingForceReport.html",
+            files: "$directory.testReports/report.html"
+    ]
+    ant.mail( mailParams ) {
+        from( address: 'testreports@gmail.com' )
+    }
+    println 'Email is sent.'
+}
+
+ext.getBuildTime = {
+    def df = new SimpleDateFormat("dd-MM-yyyy")
+    df.setTimeZone(TimeZone.getTimeZone("CET"))
+    return df.format(new Date())
+}
