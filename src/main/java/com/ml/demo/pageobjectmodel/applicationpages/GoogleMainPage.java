@@ -20,13 +20,13 @@ public class GoogleMainPage extends BasePage {
         super();
     }
 
-    public static GoogleMainPage navigateTo(String googleUrl) throws Exception {
+    public static GoogleMainPage navigateTo(String googleUrl) {
         Driver.getInstance().get(googleUrl);
         Driver.getInstance().manage().window().maximize();
         return new GoogleMainPage();
     }
 
-    public void searchTerm(String searchTerm) throws Exception {
+    public void searchTerm(String searchTerm) {
         ElementActions.setText(txtSearch, searchTerm);
         txtSearch.submit();
     }
