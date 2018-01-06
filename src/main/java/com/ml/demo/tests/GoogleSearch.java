@@ -10,7 +10,7 @@ public class GoogleSearch extends BaseTest {
     public void googleSearch() {
         GoogleMainPage mainPage = GoogleMainPage.navigateTo("https://www.google.hr/");
 
-        String searchTerm = "Cucumber";
+        String searchTerm = "TestNG";
         mainPage.searchTerm(searchTerm);
 
         Assertions.assertThat(mainPage.verifySearchResults(searchTerm)).isTrue();
