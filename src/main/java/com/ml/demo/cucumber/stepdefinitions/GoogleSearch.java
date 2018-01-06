@@ -17,6 +17,8 @@ public class GoogleSearch {
     @Given("^I have opened Google main page$")
     public void openGooglePage() {
         try {
+            long id = Thread.currentThread().getId();
+
             google.setMainPageInstance(GoogleMainPage.navigateTo("https://www.google.hr"));
         }
         catch (Exception e) {

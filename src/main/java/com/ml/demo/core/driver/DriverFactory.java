@@ -15,13 +15,13 @@ public class DriverFactory {
         MutableCapabilities browserOptions;
 
         switch (browser) {
-            case Chrome:
+            case CH:
                 browserOptions = new ChromeOptions();
                 break;
-            case Firefox:
+            case FF:
                 browserOptions = new FirefoxOptions();
                 break;
-            case InternetExplorer:
+            case IE:
                 browserOptions = new InternetExplorerOptions();
                 break;
             default:

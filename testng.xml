@@ -1,27 +1,62 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Selenium Demo Tests" verbose="4" preserve-order="true" thread-count="3" parallel="tests">
 
+    <listeners>
+        <listener class-name="com.ml.demo.core.testng.listeners.FailureListener" />
+        <listener class-name="com.vimalselvam.testng.listener.ExtentTestNgFormatter" />
+    </listeners>
+
     <test name="Selenium Demo Tests - Chrome" preserve-order="true">
-        <parameter name="browser" value="Chrome"/>
+        <parameter name="browser" value="CH"/>
+
+        <groups>
+            <define name="CH">
+                <include name=".*"/>
+            </define>
+        </groups>
 
         <classes>
+            <!-- Cucumber runners -->
             <class name="com.ml.demo.cucumber.runners.CukesRunner"/>
+
+            <!-- TestNG test classes -->
+            <class name="com.ml.demo.tests.GoogleSearch"/>
         </classes>
     </test>
 
     <test name="Selenium Demo Tests - Firefox" preserve-order="true">
-        <parameter name="browser" value="Firefox"/>
+        <parameter name="browser" value="FF"/>
+
+        <groups>
+            <define name="FF">
+                <include name=".*"/>
+            </define>
+        </groups>
 
         <classes>
+            <!-- Cucumber runners -->
             <class name="com.ml.demo.cucumber.runners.CukesRunner"/>
+
+            <!-- TestNG test classes -->
+            <class name="com.ml.demo.tests.GoogleSearch"/>
         </classes>
     </test>
 
     <test name="Selenium Demo Tests - Internet Explorer" preserve-order="true">
-        <parameter name="browser" value="InternetExplorer"/>
+        <parameter name="browser" value="IE"/>
+
+        <groups>
+            <define name="IE">
+                <include name=".*"/>
+            </define>
+        </groups>
 
         <classes>
-            <!--<class name="com.ml.demo.cucumber.runners.CukesRunner"/>-->
+            <!-- Cucumber runners -->
+            <class name="com.ml.demo.cucumber.runners.CukesRunner"/>
+
+            <!-- TestNG test classes -->
+            <class name="com.ml.demo.tests.GoogleSearch"/>
         </classes>
     </test>
 

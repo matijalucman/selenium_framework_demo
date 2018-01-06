@@ -1,24 +1,19 @@
-package com.ml.demo.cucumber.runners;
+package com.ml.demo.tests;
 
 import com.ml.demo.core.driver.Browser;
 import com.ml.demo.core.driver.Driver;
 import com.ml.demo.core.driver.DriverFactory;
 import com.ml.demo.core.utils.Logger;
-import cucumber.api.CucumberOptions;
-import cucumber.api.testng.AbstractTestNGCucumberTests;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
-@CucumberOptions(
-        features = "src/main/resources",
-        glue = "com.ml.demo.cucumber",
-        plugin = {"com.cucumber.listener.ExtentCucumberFormatter:build/reports/tests/runTests/detailedReport.html"}
-)
-public class CukesRunner extends AbstractTestNGCucumberTests {
+public class BaseTest {
+
     @BeforeMethod(alwaysRun = true)
     public void setUpWebDriver(ITestContext context) throws Exception {
-        Logger.setCucumberActive(true);
+        Logger.setCucumberActive(false);
         String browser = context.getCurrentXmlTest().getParameter("browser");
         WebDriver driver = DriverFactory.createInstance(Browser.valueOf(browser));
         Driver.setInstance(driver);

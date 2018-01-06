@@ -3,11 +3,13 @@ import java.text.SimpleDateFormat
 // Load properties from properties.gradle file
 ext.loadProperties = {
     // Get project properties
+    def groups = project.hasProperty('groups') ? groups : ""
     def profile = project.hasProperty('profile') ? profile : 'production'
-    def cucumberOptions = project.hasProperty('cucumberOptions') ? groups : ""
     def excludeBrowsers = project.hasProperty('excludeBrowsers') ? exludeBrowsers : ""
+    def cucumberOptions = project.hasProperty('cucumberOptions') ? cucumberOptions : ""
 
     // Save properties to project extra properties
+    ext.groups = groups
     ext.profile = profile
     ext.timestamp = getBuildTime()
     ext.cucumberOptions = cucumberOptions
@@ -65,14 +67,17 @@ ext.sendEmail = {
     def mailParams = [
             mailhost: 'smtp.gmail.com',
             mailport: 587,
+            ssl: true,
+            user: email.user,
+            password: email.password,
             tolist: profileProperties.emailAddress,
             subject: "$profileProperties.name Portal autotest results: $timestamp $groups",
-            messagemimetype: "text/html",
-            messagefile: "$directory.testReports/TestingForceReport.html",
+            messagemimetype: "text/plain",
             files: "$directory.testReports/report.html"
     ]
     ant.mail( mailParams ) {
         from( address: 'testreports@gmail.com' )
+        message( "Tests are executed. Results are attached." )
     }
     println 'Email is sent.'
 }

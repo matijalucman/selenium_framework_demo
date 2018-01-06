@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ElementActions {
 
-    public static void setText(WebElement element, String text) throws Exception {
+    public static void setText(WebElement element, String text) {
         Logger.log("Writing text '" + text + "' to element '" + element + "'.");
 
         WebDriverWait wait = WaitActions.getWebDriverWaitInstance(30);
